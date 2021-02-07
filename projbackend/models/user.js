@@ -19,9 +19,24 @@ var userSchema = new Schema({
     required: true,
     unique: true,
   },
+  userinfo: {
+    type: String,
+    trim: true,
+  },
   //TODO
   password: {
     type: String,
     trim: true,
   },
+  salt: String,
+  role: {
+    type: Number,
+    default: 0,
+  },
+  purchases: {
+    type: Array,
+    default: [],
+  },
 });
+
+module.exports = mongoose.model("User", userSchema);
