@@ -21,10 +21,10 @@ var userSchema = new Schema({
   },
   userinfo: {
     type: String,
-    trim: true,
+    required: true,
   },
   //TODO
-  password: {
+  encry_password: {
     type: String,
     trim: true,
   },
@@ -38,5 +38,22 @@ var userSchema = new Schema({
     default: [],
   },
 });
+
+userSchema.method = {
+  securePassword: function (plainPassword) {
+    if (!plainPassword) {
+      return "";
+    }
+
+    try {
+      return crypto
+        .createHmac("sha256", this.salt)
+        .update(plainPassword)
+        .digest("hex");
+    } catch (err) {
+      return "";
+    }
+  },
+};
 
 module.exports = mongoose.model("User", userSchema);
